@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'frontend.apps.FrontendConfig',
     'api.apps.ApiConfig',
     'rest_framework',
     'django.contrib.admin',
@@ -118,9 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# STATICFILES_DIRS = [BASE_DIR / "music_controller/static",]
+STATICFILES_DIRS = [BASE_DIR / "frontend/static",]
 
-STATIC_URL = 'music_controller/static/'
+STATIC_URL = 'frontend/static/'
 
 STATIC_ROOT = ''
 
