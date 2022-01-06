@@ -14,7 +14,41 @@ export default class CreateRoomPage extends Component {
     defaultVotes = 2;
 
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {
+            guest_can_pause: true,
+            votes_to_skip: this.defaultVotes,
+        };
+        
+        this.handleRoomButtonPressed = this.handleRoomButtonPressed.bind(this);
+        this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
+        this.handleVotesChange = this.handleVotesChange.bind(this);
+    }
+
+    handleVotesChange(e) {
+        this.setState({
+            votes_to_skip: e.target.value,
+        });
+    }
+
+    handleGuestCanPauseChange(e) {
+        this.setState({
+            guest_can_pause: e.target.value === 'true' ? true : false,
+        });
+    }
+
+    handleRoomButtonPressed() {
+        const requestOptions ={
+            method: 'POST',
+            headers: {'Content-type':'application/json'},
+            body: JSON.stringify({
+                votes_to_skip: this.state.votes_to_skip,
+                guest_can_pause: this.state.guest_can_pause
+            }),
+        };
+        fetch('/api/create-room', requestOptions).
+        then((response) => response.json()).
+        then((data) => console.log(data))
     }
 
     render() {
@@ -31,7 +65,7 @@ export default class CreateRoomPage extends Component {
                             Guest control of Playback State
                         </div>
                     </FormHelperText>
-                    <RadioGroup row defaultValue='true'>
+                    <RadioGroup row defaultValue='true' onChange ={this.handleGuestCanPauseChange}>
                         <FormControlLabel value='true' control={<Radio color='primary' />}
                         label='Play/Pause'
                         labelPlacement='bottom'
@@ -45,10 +79,11 @@ export default class CreateRoomPage extends Component {
             </Grid>
             <Grid item xs={12} align='center'>
                 <FormControl>
-                    <TextField required={true} type='number' defaultValue={this.defaultVotes}
+                    <TextField required={true} type='number' onChange={this.handleVotesChange} 
+                    defaultValue={this.defaultVotes}
                     inputProps={{
                         min: 1,
-
+                        style:{textAlign: 'center'}
                     }}/>
                     <FormHelperText>
                         <div align='center'>
@@ -56,6 +91,16 @@ export default class CreateRoomPage extends Component {
                         </div>
                     </FormHelperText>
                 </FormControl>
+            </Grid>
+            <Grid item xs={12} align='center'>
+                <Button color='primary' variant='contained' onClick={this.handleRoomButtonPressed}>
+                    Create a Room
+                </Button>
+            </Grid>
+            <Grid item xs={12} align='center'>
+                <Button color='secondary' variant='contained' to='/' component={Link}>
+                    Back
+                </Button>
             </Grid>
         </Grid>;
 
