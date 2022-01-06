@@ -43,6 +43,20 @@ export default class CreateRoomPage extends Component {
                     </RadioGroup>
                 </FormControl>
             </Grid>
+            <Grid item xs={12} align='center'>
+                <FormControl>
+                    <TextField required={true} type='number' defaultValue={this.defaultVotes}
+                    inputProps={{
+                        min: 1,
+
+                    }}/>
+                    <FormHelperText>
+                        <div align='center'>
+                            Votes to skip song
+                        </div>
+                    </FormHelperText>
+                </FormControl>
+            </Grid>
         </Grid>;
 
     }
